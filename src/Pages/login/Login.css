@@ -1,0 +1,91 @@
+
+.login{
+    min-height: 100vh;
+    background: url(/Designer.png) no-repeat;
+    background-size: cover;
+    display: flex;
+    background-size: cover;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.login .logo{
+    width: max(20vw, 200px);
+    margin-top: -400px;
+}
+
+.login-form {
+    background: white;
+    padding: 20px 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    border-radius:10px;
+    margin-top: -300px;
+    
+}
+
+.login-form h2{
+    font-weight: 500;
+}
+
+.form-input{
+    padding: 8px 10px;
+    border: 1px solid #c9c9c9;
+    border-radius: 4px;
+    outline-color: #077EFF;
+}
+
+.login-form button{
+    padding: 10px;
+    background-color: #077EFF;
+    color: white;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
+}
+
+.login-term{
+    display: flex;
+    gap: 5px;
+    font-size: 12px;
+    color: #808080;
+}
+
+.login-forgot{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.login-toggle{
+    font-size: 13px;
+    display: inline; 
+    margin: 0; 
+    padding: 0; 
+    color: #5c5c5c;
+}
+.login-toggle span{
+    font-weight: 500;
+    margin-left: 5px;
+    color: #077EFF;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .login {
+        flex-direction: column;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .login .logo {
+        margin-top: 100px; /* Adjust this value as needed */
+    }
+
+    .login-form {
+        margin-top: 0; /* Remove negative margin on smaller screens */
+        width: 90%; /* Ensure the form fits within the viewport */
+        max-width: 350px;
+    }
+}
