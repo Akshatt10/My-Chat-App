@@ -65,4 +65,30 @@
     cursor: pointer;
 }
 
+@media (max-width: 900px) {
+    .profile-container {
+        max-width: 100%;
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .profile-container {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .profile form {
+        padding: 10px;
+    }
+
+    .profile input, 
+    .profile textarea {
+        min-width: unset;
+    }
+
+    .profile form button {
+        width: 100%;
+    }
+}
 
