@@ -3,4 +3,4 @@
 ### 1. Multipage website showing my react routing skills.
 ### 2. Authentication with email for easy access.
 ### 3. Responsive design
-[https://my-chat-app-topaz.vercel.app/](Visit my website)
+ (Visit my website)[https://my-chat-app-topaz.vercel.app/]
