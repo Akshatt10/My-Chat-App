@@ -6,6 +6,7 @@ import { arrayUnion, collection, doc, getDoc, getDocs, query, serverTimestamp, s
 import { db } from '../../config/Firebase'
 import { AppContext } from '../../context/AppContext'
 import { toast } from 'react-toastify'
+import { logout } from '../../config/Firebase'
 const LeftSideBar = () => {
 
 
@@ -81,13 +82,13 @@ const LeftSideBar = () => {
         })
       })
 
-      const usnap =await getDoc(doc(db, 'users', user.id));
+      const usnap = await getDoc(doc(db, 'users', user.id));
       const udata = usnap.data();
       setChat({
-        messagesId:newmessageRef.id,
-        lastMessage:"",
-        rId:user.id,
-        updatedAt:Date.now(),
+        messagesId: newmessageRef.id,
+        lastMessage: "",
+        rId: user.id,
+        updatedAt: Date.now(),
         messageSeen: true,
         userData: udata
       })
@@ -125,22 +126,22 @@ const LeftSideBar = () => {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    const updateChatUserdata = async ()=>{
+    const updateChatUserdata = async () => {
 
-      if(chatUser) {
+      if (chatUser) {
         const userRef = doc(db, 'users', chatUser.userData.id)
         const usersnap = await getDoc(userRef);
         const userData = usersnap.data();
-        setChatUser(prev=>({...prev,userData:userData}))
+        setChatUser(prev => ({ ...prev, userData: userData }))
       }
     }
 
-  },[chatData])
+  }, [chatData])
 
   return (
-    <div className={`ls ${chatVisible ? "hidden": ""}`}>
+    <div className={`ls ${chatVisible ? "hidden" : ""}`}>
       <div className="ls-top">
         <div className="ls-nav">
           <img src={assets.logo} className='logo' alt="" />
@@ -149,7 +150,7 @@ const LeftSideBar = () => {
             <div className='sub-menu'>
               <p onClick={() => navigate('/profile')}>Edit Profile</p>
               <hr />
-              <p>Logout</p>
+              <p onClick={()=>logout()}>Logout</p>
 
             </div>
           </div>
