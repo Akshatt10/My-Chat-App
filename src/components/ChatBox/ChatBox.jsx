@@ -24,34 +24,41 @@ const ChatBox = () => {
                         text: input,
                         createdAt: new Date()
                     })
-                })
-
+                });
+    
                 const userIds = [chatUser.rId, userData.id];
-
+    
                 userIds.forEach(async (id) => {
                     const userChatRef = doc(db, 'chats', id);
                     const userChatsSnapshot = await getDoc(userChatRef);
-
+    
                     if (userChatsSnapshot.exists()) {
                         const userchatdata = userChatsSnapshot.data();
                         const chatIndex = userchatdata.chatsData.findIndex((c) => c.messageId === messagesId);
-                        userchatdata.chatsData[chatIndex].lastMessage = input.slice(0, 30);
-                        userchatdata.chatsData[chatIndex].updatedAt = Date.now();
-                        if (userchatdata.chatsData[chatIndex].rId === userData.id) {
-                            userchatdata.chatsData[chatIndex].messageSeen = false;
+    
+                        // Ensure chatIndex is valid before proceeding
+                        if (chatIndex !== -1) {
+                            userchatdata.chatsData[chatIndex].lastMessage = input.slice(0, 30);
+                            userchatdata.chatsData[chatIndex].updatedAt = Date.now();
+                            if (userchatdata.chatsData[chatIndex].rId === userData.id) {
+                                userchatdata.chatsData[chatIndex].messageSeen = false;
+                            }
+                            await updateDoc(userChatRef, {
+                                chatsData: userchatdata.chatsData
+                            });
+                        } else {
+                            // Handle the case where chatIndex is -1 (optional)
+                            console.error("Chat index not found for messageId:", messagesId);
                         }
-                        await updateDoc(userChatRef, {
-                            chatsData: userchatdata.chatsData
-                        })
                     }
-                })
+                }); // <-- Corrected line
             }
         } catch (error) {
-            toast.error(error.message)
-
+            toast.error(error.message);
         }
-        setinput("")
-    }
+        setinput("");
+    };
+    
 
     const sendImage = async (e) => {
         try {
@@ -118,12 +125,12 @@ const ChatBox = () => {
 
 
     return chatUser ? (
-        <div className={`chat-box ${chatVisible?"":"hidden"}`}>
+        <div className={`chat-box ${chatVisible ? "" : "hidden"}`}>
             <div className="chat-user">
                 <img src={chatUser.userData.avatar} alt="" />
-                <p>{chatUser.userData.name}{Date.now()-chatUser.userData.lastSeen <= 70000 ? <img className='dot' src={assets.green_dot}/> : null }</p>
+                <p>{chatUser.userData.name}{Date.now() - chatUser.userData.lastSeen <= 70000 ? <img className='dot' src={assets.green_dot} /> : null}</p>
                 <img src={assets.help_icon} className='help' alt="" />
-                <img onClick={()=>setchatVisible(false)}src={assets.arrow_icon} className='arrow' alt="" />
+                <img onClick={() => setchatVisible(false)} src={assets.arrow_icon} className='arrow' alt="" />
             </div>
 
             <div className="chat-message">
@@ -132,10 +139,10 @@ const ChatBox = () => {
                     <div key={index} className={msg.sId === userData.id ? "s-message" : "r-message"}>
 
                         {msg["image"]
-                        ? <img className='msg-img' src={msg.image}/>
-                        : <p className='message'>{msg.text}</p>
-                    }
-                      
+                            ? <img className='msg-img' src={msg.image} />
+                            : <p className='message'>{msg.text}</p>
+                        }
+
                         <div>
                             <img src={msg.sId === userData.id ? userData.avatar : chatUser.userData.avatar} alt="" />
                             <p>{convertTimeStamp(msg.createdAt)}</p>
@@ -155,7 +162,7 @@ const ChatBox = () => {
 
         </div>
     )
-        : <div className={`chat-welcome ${chatVisible?"":"hidden"}`}>
+        : <div className={`chat-welcome ${chatVisible ? "" : "hidden"}`}>
             <img src={assets.logo_icon} alt="" />
             <p>Chat anytime, anywhere with chatApp!!</p>
         </div>
